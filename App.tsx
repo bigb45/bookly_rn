@@ -1,5 +1,6 @@
 import "react-native-gesture-handler";
 import React from "react";
+import { View } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { enableScreens } from "react-native-screens";
 import { NavigationContainer } from "@react-navigation/native";
@@ -20,6 +21,13 @@ import HomeEventsHubScreen from "./src/screens/HomeEventsHubScreen";
 import CustomersScreen from "./src/screens/CustomersScreen";
 import POSScreen from "./src/screens/POSScreen";
 import AssistantScreen from "./src/screens/AssistantScreen";
+import {
+  HomeIcon,
+  CustomersIcon,
+  POSIcon,
+  AssistantIcon,
+  tabBarOptions,
+} from "./src/components/BottomTabBar";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -31,11 +39,40 @@ const App: React.FC = () => {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <NavigationContainer>
-          <Tab.Navigator screenOptions={{ headerShown: false }}>
-            <Tab.Screen name="Home" component={HomeEventsHubScreen} />
-            <Tab.Screen name="Customers" component={CustomersScreen} />
-            <Tab.Screen name="POS" component={POSScreen} />
-            <Tab.Screen name="Assistant" component={AssistantScreen} />
+          <Tab.Navigator
+            screenOptions={{
+              headerShown: false,
+              ...tabBarOptions,
+            }}
+          >
+            <Tab.Screen
+              name="Home"
+              component={HomeEventsHubScreen}
+              options={{
+                tabBarIcon: HomeIcon,
+              }}
+            />
+            <Tab.Screen
+              name="Customers"
+              component={CustomersScreen}
+              options={{
+                tabBarIcon: CustomersIcon,
+              }}
+            />
+            <Tab.Screen
+              name="POS"
+              component={POSScreen}
+              options={{
+                tabBarIcon: POSIcon,
+              }}
+            />
+            <Tab.Screen
+              name="Assistant"
+              component={AssistantScreen}
+              options={{
+                tabBarIcon: AssistantIcon,
+              }}
+            />
           </Tab.Navigator>
         </NavigationContainer>
         <StatusBar style="auto" />
