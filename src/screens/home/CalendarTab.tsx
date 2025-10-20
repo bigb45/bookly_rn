@@ -1,25 +1,50 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { useTheme } from "../../theme/useTheme";
 
 const CalendarTab: React.FC = () => {
+  const theme = useTheme();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Calendar Tab</Text>
-      <Text style={styles.subtitle}>
+    <ScrollView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+      contentContainerStyle={{ padding: theme.spacing.md }}
+    >
+      <Text
+        style={[
+          theme.typography.headlineMedium,
+          { color: theme.colors.text, marginBottom: theme.spacing.sm },
+        ]}
+      >
+        Calendar Tab
+      </Text>
+      <Text
+        style={[
+          theme.typography.bodyLarge,
+          { color: theme.colors.textSecondary, marginTop: theme.spacing.md },
+        ]}
+      >
         Calendar implementation coming soon...
       </Text>
-      <Text style={styles.note}>
-        (react-native-calendars has compatibility issues with current RN version)
+      <Text
+        style={[
+          theme.typography.bodySmall,
+          {
+            color: theme.colors.textTertiary,
+            marginTop: theme.spacing.sm,
+            fontStyle: "italic",
+          },
+        ]}
+      >
+        (react-native-calendars has compatibility issues with current RN
+        version)
       </Text>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, backgroundColor: "#FBFBFF" },
-  title: { fontSize: 24, fontWeight: "700", marginBottom: 8 },
-  subtitle: { fontSize: 16, color: "#666", marginTop: 16 },
-  note: { fontSize: 14, color: "#999", marginTop: 8, fontStyle: "italic" },
+  container: { flex: 1 },
 });
 
 export default CalendarTab;
