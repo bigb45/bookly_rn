@@ -10,32 +10,66 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import DashboardTab from "./home/DashboardTab";
 import CalendarTab from "./home/CalendarTab";
+import AppBar from "../components/AppBar";
+import { useTheme } from "../theme/useTheme";
 
 const HomeEventsHubScreen: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const theme = useTheme();
+
+  const handleNotificationsPress = () => {
+    console.log("Notifications pressed");
+  };
+
+  const handleSettingsPress = () => {
+    console.log("Settings pressed");
+  };
 
   return (
-    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-      <View style={styles.segmentContainer}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+      edges={["top", "bottom"]}
+    >
+      <AppBar
+        title={selectedIndex === 0 ? "Dashboard" : "Calendar"}
+        onNotificationsPress={handleNotificationsPress}
+        onSettingsPress={handleSettingsPress}
+      />
+      <View style={[styles.segmentContainer, { padding: theme.spacing.md }]}>
         <View
-          style={
+          style={[
             Platform.OS === "ios"
               ? styles.iosSegContainer
-              : styles.androidSegContainer
-          }
+              : styles.androidSegContainer,
+            {
+              backgroundColor: theme.colors.border,
+              borderRadius: theme.borderRadius.md,
+            },
+          ]}
         >
           <TouchableOpacity
             style={[
               styles.tabButton,
-              selectedIndex === 0 && styles.tabSelected,
+              selectedIndex === 0 && {
+                ...styles.tabSelected,
+                backgroundColor: theme.colors.surface,
+                borderWidth: 1,
+                borderColor: theme.colors.primary,
+                ...theme.shadows.sm,
+              },
             ]}
             onPress={() => setSelectedIndex(0)}
             activeOpacity={0.8}
           >
             <Text
               style={[
-                styles.tabText,
-                selectedIndex === 0 && styles.tabTextSelected,
+                theme.typography.labelLarge,
+                {
+                  color:
+                    selectedIndex === 0
+                      ? theme.colors.primary
+                      : theme.colors.textSecondary,
+                },
               ]}
             >
               Dashboard
@@ -44,15 +78,26 @@ const HomeEventsHubScreen: React.FC = () => {
           <TouchableOpacity
             style={[
               styles.tabButton,
-              selectedIndex === 1 && styles.tabSelected,
+              selectedIndex === 1 && {
+                ...styles.tabSelected,
+                backgroundColor: theme.colors.surface,
+                borderWidth: 1,
+                borderColor: theme.colors.primary,
+                ...theme.shadows.sm,
+              },
             ]}
             onPress={() => setSelectedIndex(1)}
             activeOpacity={0.8}
           >
             <Text
               style={[
-                styles.tabText,
-                selectedIndex === 1 && styles.tabTextSelected,
+                theme.typography.labelLarge,
+                {
+                  color:
+                    selectedIndex === 1
+                      ? theme.colors.primary
+                      : theme.colors.textSecondary,
+                },
               ]}
             >
               Calendar
@@ -68,17 +113,13 @@ const HomeEventsHubScreen: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  segmentContainer: { padding: 16 },
+  segmentContainer: {},
   iosSegContainer: {
     flexDirection: "row",
-    backgroundColor: "#f2f2f7",
-    borderRadius: 12,
     padding: 4,
   },
   androidSegContainer: {
     flexDirection: "row",
-    backgroundColor: "#eee",
-    borderRadius: 8,
     padding: 4,
   },
   tabButton: {
@@ -87,17 +128,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 8,
   },
-  tabSelected: {
-    backgroundColor: "#fff",
-  },
-  tabText: {
-    fontSize: 15,
-    fontWeight: "600",
-    color: "#666",
-  },
-  tabTextSelected: {
-    color: "#1976FF",
-  },
+  tabSelected: {},
 });
 
 export default HomeEventsHubScreen;
