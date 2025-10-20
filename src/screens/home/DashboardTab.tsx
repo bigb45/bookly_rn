@@ -9,6 +9,7 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { CalendarBlank } from "phosphor-react-native";
 import QuickActions from "../../components/QuickActions";
+import { useTheme } from "../../theme/useTheme";
 
 interface Stat {
   title: string;
@@ -26,6 +27,8 @@ interface Appointment {
 }
 
 const DashboardTab: React.FC = () => {
+  const theme = useTheme();
+
   // Hardcoded sample values for the scaffold. Replace with real data later.
   const stats: Stat[] = [
     { title: "Total Appointments", value: "4", color: "#2F6BFF" },
@@ -47,81 +50,140 @@ const DashboardTab: React.FC = () => {
 
   return (
     <ScrollView
-      style={styles.container}
-      contentContainerStyle={{ padding: 16 }}
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+      contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 16 }}
     >
-      <View style={styles.segmentWrap}>
-        <View style={styles.segmentInner}>
-          <TouchableOpacity
-            style={[
-              styles.segmentBtn,
-              styles.segmentBtnLeft,
-              { backgroundColor: "#1976FF" },
-            ]}
-            activeOpacity={0.9}
-          >
-            <Text style={[styles.segmentText, { color: "#fff" }]}>
-              Dashboard
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.segmentBtn, styles.segmentBtnRight]}
-            activeOpacity={0.9}
-          >
-            <Text style={styles.segmentText}>Calendar</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
       <LinearGradient
-        colors={["#1E66FF", "#4D8DFF"]}
-        style={styles.welcomeCard}
+        colors={[theme.colors.primary, theme.colors.primaryLight]}
+        style={[styles.welcomeCard, { borderRadius: theme.borderRadius.lg }]}
       >
-        <Text style={styles.greeting}>Good Evening</Text>
-        <Text style={styles.welcomeTitle}>Welcome back to Bookly</Text>
-        <Text style={styles.welcomeSubtitle}>
+        <Text style={[styles.greeting, theme.typography.headlineMedium]}>
+          Good Evening
+        </Text>
+        <Text style={[styles.welcomeTitle, theme.typography.displayMedium]}>
+          Welcome back to Bookly
+        </Text>
+        <Text style={[styles.welcomeSubtitle, theme.typography.bodyLarge]}>
           Here's what's happening today
         </Text>
       </LinearGradient>
 
-      <View style={{ height: 24 }} />
+      <View style={{ height: theme.spacing.lg }} />
 
       <View style={styles.statsGrid}>
         {stats.map((s, i) => (
-          <View key={i} style={styles.statCard}>
+          <View
+            key={i}
+            style={[
+              styles.statCard,
+              {
+                backgroundColor: theme.colors.surface,
+                borderColor: theme.colors.border,
+                borderRadius: theme.borderRadius.lg,
+                ...theme.shadows.sm,
+              },
+            ]}
+          >
             <View
-              style={[styles.statIcon, { backgroundColor: s.color + "1A" }]}
+              style={[
+                styles.statIcon,
+                {
+                  backgroundColor: s.color + "1A",
+                  borderRadius: theme.borderRadius.md,
+                },
+              ]}
             >
-              <CalendarBlank
-                size={18}
-                color={s.color}
-                weight="fill"
-              />
+              <CalendarBlank size={18} color={s.color} weight="fill" />
             </View>
-            <Text style={[styles.statValue, { color: s.color }]}>
+            <Text style={[theme.typography.displaySmall, { color: s.color }]}>
               {s.value}
             </Text>
-            <Text style={styles.statTitle}>{s.title}</Text>
+            <Text
+              style={[
+                theme.typography.labelMedium,
+                {
+                  color: theme.colors.textSecondary,
+                  marginTop: theme.spacing.xs,
+                },
+              ]}
+            >
+              {s.title}
+            </Text>
           </View>
         ))}
       </View>
 
-      <View style={{ height: 24 }} />
+      <View style={{ height: theme.spacing.lg }} />
 
-      <Text style={styles.sectionTitle}>Today's Appointments</Text>
-      <View style={{ height: 12 }} />
+      <Text
+        style={[theme.typography.headlineMedium, { color: theme.colors.text }]}
+      >
+        Today's Appointments
+      </Text>
+      <View style={{ height: theme.spacing.sm }} />
 
       {appointments.map((a) => (
-        <View key={a.id} style={styles.appointmentCard}>
+        <View
+          key={a.id}
+          style={[
+            styles.appointmentCard,
+            {
+              backgroundColor: theme.colors.surface,
+              borderColor: theme.colors.border,
+              borderRadius: theme.borderRadius.lg,
+            },
+          ]}
+        >
           <View>
-            <Text style={styles.appName}>{a.name}</Text>
-            <Text style={styles.appMeta}>✂️ {a.service}</Text>
-            <Text style={styles.appMeta}>⏱️ {a.time} (60min)</Text>
-            <View style={styles.statusPill}>
-              <Text style={styles.statusText}>{a.status}</Text>
+            <Text
+              style={[
+                theme.typography.titleLarge,
+                { color: theme.colors.text, marginBottom: theme.spacing.xs },
+              ]}
+            >
+              {a.name}
+            </Text>
+            <Text
+              style={[
+                theme.typography.bodyMedium,
+                {
+                  color: theme.colors.textSecondary,
+                  marginBottom: theme.spacing.xs,
+                },
+              ]}
+            >
+              ✂️ {a.service}
+            </Text>
+            <Text
+              style={[
+                theme.typography.bodyMedium,
+                {
+                  color: theme.colors.textSecondary,
+                  marginBottom: theme.spacing.xs,
+                },
+              ]}
+            >
+              ⏱️ {a.time} (60min)
+            </Text>
+            <View
+              style={[
+                styles.statusPill,
+                { borderRadius: theme.borderRadius.md },
+              ]}
+            >
+              <Text style={[theme.typography.labelSmall, styles.statusText]}>
+                {a.status}
+              </Text>
             </View>
           </View>
-          <Text style={styles.appPrice}>{a.price}</Text>
+          <Text
+            style={[
+              theme.typography.headlineMedium,
+              { color: theme.colors.primary },
+            ]}
+          >
+            {a.price}
+          </Text>
         </View>
       ))}
 
@@ -132,45 +194,24 @@ const DashboardTab: React.FC = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#FBFBFF" },
-  segmentWrap: { paddingTop: 8, paddingHorizontal: 16 },
-  segmentInner: {
-    width: "100%",
-    height: 44,
-    backgroundColor: "#F7F7FB",
-    borderRadius: 22,
-    flexDirection: "row",
-    overflow: "hidden",
-    alignItems: "center",
+  container: {
+    flex: 1,
   },
-  segmentBtn: { flex: 1, alignItems: "center", justifyContent: "center" },
-  segmentBtnLeft: { borderTopLeftRadius: 22, borderBottomLeftRadius: 22 },
-  segmentBtnRight: { borderTopRightRadius: 22, borderBottomRightRadius: 22 },
-  segmentText: { color: "#0A0A0A", fontWeight: "600" },
-
   welcomeCard: {
     marginTop: 16,
-    borderRadius: 16,
     padding: 24,
-    backgroundColor: "#2F6BFF",
   },
   greeting: {
     color: "rgba(255,255,255,0.95)",
-    fontSize: 20,
-    fontWeight: "300",
   },
   welcomeTitle: {
     color: "#fff",
-    fontSize: 28,
-    fontWeight: "700",
     marginTop: 4,
   },
   welcomeSubtitle: {
     color: "rgba(255,255,255,0.85)",
-    fontSize: 15,
     marginTop: 6,
   },
-
   statsGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -178,54 +219,36 @@ const styles = StyleSheet.create({
   },
   statCard: {
     width: "48%",
-    backgroundColor: "#fff",
-    borderRadius: 16,
     padding: 16,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: "rgba(10,10,10,0.04)",
   },
   statIcon: {
     width: 36,
     height: 36,
-    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 12,
   },
-  statValue: { fontSize: 28, fontWeight: "700" },
-  statTitle: {
-    fontSize: 13,
-    color: "#666",
-    marginTop: 4,
-    fontWeight: "500",
-  },
-
-  sectionTitle: { fontSize: 20, fontWeight: "700" },
-
   appointmentCard: {
-    backgroundColor: "#fff",
-    borderRadius: 16,
     padding: 16,
     marginBottom: 12,
     borderWidth: 1,
-    borderColor: "rgba(10,10,10,0.04)",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
-  appName: { fontSize: 17, fontWeight: "600", marginBottom: 6 },
-  appMeta: { fontSize: 14, color: "#666", marginBottom: 4 },
   statusPill: {
     backgroundColor: "#E8F5E9",
-    borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 4,
     alignSelf: "flex-start",
     marginTop: 8,
   },
-  statusText: { fontSize: 12, color: "#2BC48A", fontWeight: "600" },
-  appPrice: { fontSize: 20, fontWeight: "700", color: "#2F6BFF" },
+  statusText: {
+    color: "#2BC48A",
+    fontWeight: "600",
+  },
 });
 
 export default DashboardTab;
