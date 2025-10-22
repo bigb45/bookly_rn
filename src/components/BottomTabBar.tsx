@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Platform } from "react-native";
 import { House, Users, CreditCard, Robot } from "phosphor-react-native";
 import { useTheme } from "../theme/useTheme";
 
@@ -100,9 +100,9 @@ export const tabBarOptions = {
     backgroundColor: "#fff",
     borderTopWidth: 1,
     borderTopColor: "#eee",
-    height: 70,
-    paddingBottom: 10,
     paddingTop: 10,
+    paddingBottom: Platform.OS === "android" ? 12 : 8,
+    height: Platform.OS === "android" ? 75 : 85,
   },
   tabBarLabelStyle: {
     fontSize: 12,

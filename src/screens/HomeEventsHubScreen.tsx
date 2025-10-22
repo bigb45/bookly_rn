@@ -6,7 +6,6 @@ import {
   Platform,
   TouchableOpacity,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import DashboardTab from "./home/DashboardTab";
 import CalendarTab from "./home/CalendarTab";
@@ -26,9 +25,8 @@ const HomeEventsHubScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView
+    <View
       style={[styles.container, { backgroundColor: theme.colors.background }]}
-      edges={["top", "bottom"]}
     >
       <AppBar
         title={selectedIndex === 0 ? "Dashboard" : "Calendar"}
@@ -107,7 +105,7 @@ const HomeEventsHubScreen: React.FC = () => {
       </View>
 
       {selectedIndex === 0 ? <DashboardTab /> : <CalendarTab />}
-    </SafeAreaView>
+    </View>
   );
 };
 
